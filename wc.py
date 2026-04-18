@@ -1,3 +1,15 @@
+"""
+Word Count (wc) Clone
+=====================
+
+This module provides a command-line utility to count lines, words, characters, bytes, and maximum line lengths in files, mimicking the Unix 'wc' command.
+
+Usage:
+    py wc.py [option ...] [file ...]
+    py wc.py [option ...] --files0-from=F
+
+:license: MIT, see LICENSE for more details.
+"""
 import argparse
 import sys
 from dataclasses import dataclass
@@ -5,6 +17,22 @@ from dataclasses import dataclass
 
 @dataclass
 class Stats:
+    """
+    A data container for file metrics.
+
+    :param name: Path or name of the file being measured.
+    :type name: str
+    :param lines: Total number of lines.
+    :type lines: int
+    :param words: Total number of words separated by whitespace.
+    :type words: int
+    :param chars: Total number of characters.
+    :type chars: int
+    :param bytes: Total size of the file in bytes.
+    :type bytes: int
+    :param max_line_length: Maximum display width of a line (Tab is expanded to 8 characters).
+    :type max_line_length: int
+    """
     name: str
     lines: int = 0
     words: int = 0
@@ -14,10 +42,27 @@ class Stats:
 
 
 def display_data(data: list[Stats]) -> None:
+    """
+    Format and print the calculated statistics to the console.
+
+    Calculates the total for each metric if multiple files were processed
+    and aligns the output for readability.
+
+    :param data: A list of Stats objects, each representing a file's statistics.
+    :type data: list[Stats]
+    :return: None
+    """
     pass
 
 
 def process_files(options: argparse.Namespace) -> None:
+    """
+    Coordinate the processing of input files based on provided flags.
+
+    :param options: A namespace object containing CLI arguments
+    :type options: argparse.Namespace
+    :return: None
+    """
     all_stats: list[Stats] = []
 
     for file_name in options.files:
@@ -54,8 +99,17 @@ def process_files(options: argparse.Namespace) -> None:
 
 
 def main() -> None:
+    """
+    Executes the command-line interface for the wc tool.
+
+    This function parses command-line arguments using :mod:`argparse`, 
+    initializes the file processing workflow, and outputs the results 
+    to the standard output.
+
+    :return: None
+    """
     parser: argparse.ArgumentParser = argparse.ArgumentParser(
-        description="""A Python implementation of the Unix wc utility.
+        description="""A Python clone of the Unix wc utility.
 This tool counts the number of lines, words, bytes,
 and characters in the specified files.""",
         formatter_class=argparse.RawTextHelpFormatter
